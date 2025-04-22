@@ -1,1 +1,18 @@
-<p>goods works!</p>
+<ul>
+  @for (good of goods(); track good.id) {
+  <li>
+    <div class="item-container">
+      <span>{{ good.name }}</span>
+      <span class="example-button-container">
+        <button mat-mini-fab>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </span>
+    </div>
+  </li>
+  }
+</ul>
+
+<button mat-flat-button class="add-button" (click)="openAddGoodDialog()">
+  Add Item
+</button>

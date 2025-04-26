@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -13,16 +14,23 @@ import { AddGoodDialogComponent } from './add-good/add-good-dialog/add-good-dial
   templateUrl: './goods.component.html',
   styleUrl: './goods.component.css',
 })
-export class GoodsComponent implements OnInit {
+export class GoodsComponent {
   goodsService = inject(GoodsService);
   goodsFirebaseService = inject(GoodsFirebaseService);
   goods = this.goodsService.goods;
   dialog = inject(MatDialog);
 
-  ngOnInit(): void {
-    this.goodsFirebaseService.getAllGoods().subscribe((goods) => {
-      this.goodsService.goods.set(goods);
-    });
+  constructor() {
+    this.initializeGoods();
+  }
+
+  initializeGoods() {
+    this.goodsFirebaseService
+      .getAllGoods()
+      .pipe(takeUntilDestroyed())
+      .subscribe((goods) => {
+        this.goodsService.goods.set(goods);
+      });
   }
 
   openAddGoodDialog(): void {

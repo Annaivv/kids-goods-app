@@ -1,5 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { Good } from '../interfaces/good.model';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class GoodsService {

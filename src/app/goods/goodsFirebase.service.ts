@@ -8,6 +8,7 @@ import {
 } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { Good } from './interfaces/good.model';
+import { deleteDoc } from 'firebase/firestore';
 
 export type NewGood = Omit<Good, 'id'>;
 
@@ -23,17 +24,11 @@ export class GoodsFirebaseService {
   }
 
   addGood(good: NewGood): Observable<string> {
-    // const goodToCreate = {
-    //   name: good.name,
-    //   description: good.description,
-    //   price: good.price,
-    //   image: good.image,
-    //   category: good.category,
-    // };
-    // const promise = addDoc(this.goodsCollection, goodToCreate).then(
-    //   (response) => response.id
-    // );
-    // return from(promise);
     return from(addDoc(this.goodsCollection, good).then((ref) => ref.id));
+  }
+
+  removeGood(goodId: string): Observable<void> {
+    const docRef = doc(this.firestore, 'goods/' + goodId);
+    return from(deleteDoc(docRef));
   }
 }

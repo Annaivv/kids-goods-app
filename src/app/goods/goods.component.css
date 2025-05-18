@@ -2,20 +2,11 @@ ul {
   margin: 0 auto;
   padding: 0;
   list-style: none;
-}
-
-.item-container {
-  max-width: fit-content;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-}
-
-.example-button-container {
-  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  width: 140px;
+  align-items: center;
+  gap: 1rem;
 }
 
 .add-button {

@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 import { GoodsService } from './goods.service';
 import { GoodsFirebaseService } from './goodsFirebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddGoodDialogComponent } from './add-good/add-good-dialog/add-good-dialog.component';
+import { GoodComponent } from './good/good.component';
 
 @Component({
   selector: 'app-goods',
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatButtonModule, GoodComponent],
   templateUrl: './goods.component.html',
   styleUrl: './goods.component.css',
 })

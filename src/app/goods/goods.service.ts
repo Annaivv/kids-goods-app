@@ -1,13 +1,21 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Good } from './interfaces/good.model';
 import { Observable } from 'rxjs';
+import { GoodsFirebaseService } from './goodsFirebase.service';
 
 @Injectable({ providedIn: 'root' })
 export class GoodsService {
+  goodsFirebaseService = inject(GoodsFirebaseService);
   goods = signal<Good[]>([]);
 
   addGood(newGood: Good) {
-    this.goods.update((currentGoods) => [...currentGoods, newGood]);
+    this.goodsFirebaseService.addGood(newGood).subscribe((addedGoodId) => {
+      this.goods.update((currentGoods) => [
+        ...currentGoods,
+        { ...newGood, id: addedGoodId },
+      ]);
+    });
+    // this.goods.update((currentGoods) => [...currentGoods, newGood]);
   }
 
   removeGood(goodId: string) {

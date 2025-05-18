@@ -36,9 +36,9 @@
       <span matTextPrefix>$&nbsp;</span>
       <span matTextSuffix>.00</span>
     </mat-form-field>
+    <div mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-primary [disabled]="form.invalid" type="submit">Add</button>
+    </div>
   </form>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-primary [disabled]="form.invalid" type="submit">Add</button>
 </div>

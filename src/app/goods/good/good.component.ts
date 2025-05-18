@@ -1,7 +1,9 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Good } from '../interfaces/good.model';
+import { GoodsService } from '../goods.service';
+import { GoodsFirebaseService } from '../goodsFirebase.service';
 
 @Component({
   selector: 'app-good',
@@ -11,4 +13,13 @@ import { Good } from '../interfaces/good.model';
 })
 export class GoodComponent {
   good = input.required<Good>();
+
+  goodsService = inject(GoodsService);
+  goodsFirebaseService = inject(GoodsFirebaseService);
+
+  removeGood(): void {
+    this.goodsFirebaseService.removeGood(this.good().id).subscribe(() => {
+      this.goodsService.removeGood(this.good().id);
+    });
+  }
 }

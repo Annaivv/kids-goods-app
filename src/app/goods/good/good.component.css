@@ -1,13 +1,16 @@
 .item-container {
   max-width: fit-content;
+  min-width: 200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
 .example-button-container {
   display: flex;
   justify-content: center;
-  width: 140px;
 }

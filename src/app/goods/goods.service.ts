@@ -11,11 +11,10 @@ export class GoodsService {
   addGood(newGood: Good) {
     this.goodsFirebaseService.addGood(newGood).subscribe((addedGoodId) => {
       this.goods.update((currentGoods) => [
-        ...currentGoods,
         { ...newGood, id: addedGoodId },
+        ...currentGoods,
       ]);
     });
-    // this.goods.update((currentGoods) => [...currentGoods, newGood]);
   }
 
   removeGood(goodId: string) {

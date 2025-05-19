@@ -11,5 +11,6 @@ ul {
 
 .add-button {
   margin: 0 auto;
+  margin-top: 2rem;
   display: block;
 }

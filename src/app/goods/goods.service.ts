@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Good } from './interfaces/good.model';
+import { Good, NewGood } from './interfaces/good.model';
 import { Observable } from 'rxjs';
 import { GoodsFirebaseService } from './goodsFirebase.service';
 
@@ -8,7 +8,7 @@ export class GoodsService {
   goodsFirebaseService = inject(GoodsFirebaseService);
   goods = signal<Good[]>([]);
 
-  addGood(newGood: Good) {
+  addGood(newGood: Good): void {
     this.goodsFirebaseService.addGood(newGood).subscribe((addedGoodId) => {
       this.goods.update((currentGoods) => [
         { ...newGood, id: addedGoodId },
@@ -17,13 +17,13 @@ export class GoodsService {
     });
   }
 
-  removeGood(goodId: string) {
+  removeGood(goodId: string): void {
     this.goods.update((currentGoods) =>
       currentGoods.filter((good) => good.id !== goodId)
     );
   }
 
-  updateGood(goodId: string, updatedGood: Good) {
+  updateGood(goodId: string, updatedGood: NewGood): void {
     this.goods.update((currentGoods) =>
       currentGoods.map((good) =>
         good.id === goodId ? { ...good, ...updatedGood } : good

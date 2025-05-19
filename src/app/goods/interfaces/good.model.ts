@@ -6,3 +6,7 @@ export interface Good {
   image?: string;
   category: string;
 }
+
+export type NewGood = Omit<Good, 'id'>;
+
+export type Category = 'clothes' | 'footwear' | 'toys' | 'games' | 'other';

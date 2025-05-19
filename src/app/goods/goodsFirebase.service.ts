@@ -7,10 +7,8 @@ import {
   collectionData,
 } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { Good } from './interfaces/good.model';
-import { deleteDoc } from 'firebase/firestore';
-
-export type NewGood = Omit<Good, 'id'>;
+import { Good, NewGood } from './interfaces/good.model';
+import { deleteDoc, setDoc } from 'firebase/firestore';
 
 @Injectable({ providedIn: 'root' })
 export class GoodsFirebaseService {
@@ -30,5 +28,10 @@ export class GoodsFirebaseService {
   removeGood(goodId: string): Observable<void> {
     const docRef = doc(this.firestore, 'goods/' + goodId);
     return from(deleteDoc(docRef));
+  }
+
+  updateGood(goodId: string, updatedGood: Partial<NewGood>): Observable<void> {
+    const docRef = doc(this.firestore, 'goods/' + goodId);
+    return from(setDoc(docRef, updatedGood));
   }
 }

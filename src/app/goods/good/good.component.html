@@ -1,6 +1,9 @@
 <div class="item-container">
   <span>{{ good().name }}</span>
   <span class="example-button-container">
+    <button mat-mini-fab (click)="editGood()">
+      <mat-icon>edit</mat-icon>
+    </button>
     <button mat-mini-fab (click)="removeGood()">
       <mat-icon>delete</mat-icon>
     </button>

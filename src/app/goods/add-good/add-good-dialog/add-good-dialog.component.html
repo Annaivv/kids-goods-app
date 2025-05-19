@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>New good for sale</h2>
 <div mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <mat-form-field>
+    <mat-form-field class="input">
       <mat-label>Good name</mat-label>
       <input matInput formControlName="name" required />
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="input">
       <mat-label>Description</mat-label>
       <textarea
         matInput
@@ -13,7 +13,7 @@
         formControlName="description"
       ></textarea>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="input">
       <mat-label>Select</mat-label>
       <mat-select name="category" formControlName="category">
         <mat-option value="clothes">Clothes</mat-option>
@@ -23,7 +23,7 @@
         <mat-option value="other">Other</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field floatLabel="always">
+    <mat-form-field floatLabel="always" class="input">
       <mat-label>Price</mat-label>
       <input
         matInput
@@ -36,13 +36,15 @@
       <span matTextPrefix>$&nbsp;</span>
       <span matTextSuffix>.00</span>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="input">
       <mat-label>Image</mat-label>
       <input matInput formControlName="image" />
     </mat-form-field>
     <div mat-dialog-actions>
       <button mat-button (click)="onCancel()">Cancel</button>
-      <button mat-primary [disabled]="form.invalid" type="submit">Add</button>
+      <button mat-flat-button [disabled]="form.invalid" type="submit">
+        Add
+      </button>
     </div>
   </form>
 </div>

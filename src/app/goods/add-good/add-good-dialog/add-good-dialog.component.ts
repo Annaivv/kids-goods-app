@@ -19,6 +19,7 @@ import { GoodsFirebaseService } from '../../goodsFirebase.service';
 import { Category, NewGood } from '../../interfaces/good.model';
 import { take } from 'rxjs';
 import { Good } from '../../interfaces/good.model';
+import { ToastService } from '../../../toasts/toast.service';
 
 @Component({
   selector: 'app-add-good-dialog',
@@ -37,6 +38,7 @@ import { Good } from '../../interfaces/good.model';
 export class AddGoodDialogComponent {
   dialogRef = inject(MatDialogRef<AddGoodDialogComponent>);
   goodsFirebaseService = inject(GoodsFirebaseService);
+  toastServise = inject(ToastService);
 
   data = signal<Good | null>(inject(MAT_DIALOG_DATA));
 
@@ -57,6 +59,36 @@ export class AddGoodDialogComponent {
     image: new FormControl<string | null>(this.data()?.image || null),
   });
 
+  onAddGood(addedData: NewGood): void {
+    this.goodsFirebaseService
+      .addGood(addedData)
+      .pipe(take(1))
+      .subscribe({
+        next: (addedGoodId) => {
+          console.log('Good added with ID:', addedGoodId);
+          this.dialogRef.close({ ...addedData, id: addedGoodId });
+        },
+        error: (error) => {
+          console.error('Error adding good:', error);
+        },
+      });
+  }
+
+  onUpdateGood(updatedData: NewGood, goodId: string): void {
+    this.goodsFirebaseService
+      .updateGood(goodId, updatedData)
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          console.log('Good updated with ID:', goodId);
+          this.dialogRef.close(updatedData);
+        },
+        error: (error) => {
+          console.error('Error updating good:', error);
+        },
+      });
+  }
+
   onSubmit(): void {
     if (this.form.invalid) {
       console.log('INVALID FORM');
@@ -67,33 +99,9 @@ export class AddGoodDialogComponent {
     const formData = this.form.value as NewGood;
     const existingGoodId = this.data()?.id;
 
-    if (existingGoodId) {
-      this.goodsFirebaseService
-        .updateGood(existingGoodId, formData)
-        .pipe(take(1))
-        .subscribe({
-          next: () => {
-            console.log('Good updated with ID:', existingGoodId);
-            this.dialogRef.close(formData);
-          },
-          error: (error) => {
-            console.error('Error updating good:', error);
-          },
-        });
-    } else {
-      this.goodsFirebaseService
-        .addGood(formData)
-        .pipe(take(1))
-        .subscribe({
-          next: (addedGoodId) => {
-            console.log('Good added with ID:', addedGoodId);
-            this.dialogRef.close({ ...formData, id: addedGoodId });
-          },
-          error: (error) => {
-            console.error('Error adding good:', error);
-          },
-        });
-    }
+    existingGoodId
+      ? this.onUpdateGood(formData, existingGoodId)
+      : this.onAddGood(formData);
   }
 
   onCancel(): void {

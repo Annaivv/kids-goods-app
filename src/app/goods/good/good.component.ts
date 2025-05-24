@@ -6,6 +6,7 @@ import { GoodsService } from '../goods.service';
 import { GoodsFirebaseService } from '../goodsFirebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddGoodDialogComponent } from '../add-good/add-good-dialog/add-good-dialog.component';
+import { NotificationService } from '../../shared/notification.service';
 
 @Component({
   selector: 'app-good',
@@ -19,11 +20,13 @@ export class GoodComponent {
   goodsService = inject(GoodsService);
   goodsFirebaseService = inject(GoodsFirebaseService);
   dialog = inject(MatDialog);
+  private notificationService = inject(NotificationService);
 
   removeGood(): void {
     this.goodsFirebaseService.removeGood(this.good().id).subscribe(() => {
       this.goodsService.removeGood(this.good().id);
     });
+    this.notificationService.openSnackBar('Good deleted successfully');
   }
 
   editGood(): void {

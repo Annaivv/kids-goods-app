@@ -14,12 +14,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import {
+  MatSnackBar,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+
 import { GoodsFirebaseService } from '../../goodsFirebase.service';
 
 import { Category, NewGood } from '../../interfaces/good.model';
 import { take } from 'rxjs';
 import { Good } from '../../interfaces/good.model';
-import { ToastService } from '../../../toasts/toast.service';
+import { NotificationService } from '../../../shared/notification.service';
 
 @Component({
   selector: 'app-add-good-dialog',
@@ -38,7 +43,7 @@ import { ToastService } from '../../../toasts/toast.service';
 export class AddGoodDialogComponent {
   dialogRef = inject(MatDialogRef<AddGoodDialogComponent>);
   goodsFirebaseService = inject(GoodsFirebaseService);
-  toastServise = inject(ToastService);
+  private notificationService = inject(NotificationService);
 
   data = signal<Good | null>(inject(MAT_DIALOG_DATA));
 
@@ -66,6 +71,7 @@ export class AddGoodDialogComponent {
       .subscribe({
         next: (addedGoodId) => {
           console.log('Good added with ID:', addedGoodId);
+          this.notificationService.openSnackBar('Good added successfully');
           this.dialogRef.close({ ...addedData, id: addedGoodId });
         },
         error: (error) => {
@@ -81,6 +87,7 @@ export class AddGoodDialogComponent {
       .subscribe({
         next: () => {
           console.log('Good updated with ID:', goodId);
+          this.notificationService.openSnackBar('Good updated successfully');
           this.dialogRef.close(updatedData);
         },
         error: (error) => {

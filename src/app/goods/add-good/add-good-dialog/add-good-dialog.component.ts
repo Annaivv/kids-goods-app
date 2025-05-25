@@ -9,22 +9,19 @@ import {
   MatDialogRef,
   MatDialogModule,
   MAT_DIALOG_DATA,
+  MatDialog,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import {
-  MatSnackBar,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
-
 import { GoodsFirebaseService } from '../../goodsFirebase.service';
 
 import { Category, NewGood } from '../../interfaces/good.model';
 import { take } from 'rxjs';
 import { Good } from '../../interfaces/good.model';
 import { NotificationService } from '../../../shared/notification.service';
+import { ConfirmationComponent } from '../../../shared/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-add-good-dialog',
@@ -42,6 +39,7 @@ import { NotificationService } from '../../../shared/notification.service';
 })
 export class AddGoodDialogComponent {
   dialogRef = inject(MatDialogRef<AddGoodDialogComponent>);
+  dialog = inject(MatDialog);
   goodsFirebaseService = inject(GoodsFirebaseService);
   private notificationService = inject(NotificationService);
 
@@ -112,7 +110,20 @@ export class AddGoodDialogComponent {
   }
 
   onCancel(): void {
-    this.dialogRef.close();
+    const confirmationDialogRef = this.dialog.open(ConfirmationComponent, {
+      width: '400px',
+      data: {
+        message: 'Are you sure you want to cancel? All changes will be lost.',
+      },
+    });
+
+    confirmationDialogRef
+      .afterClosed()
+      .subscribe((confirmed: boolean | undefined) => {
+        if (confirmed === true) {
+          this.dialogRef.close();
+        }
+      });
   }
 
   onReset() {

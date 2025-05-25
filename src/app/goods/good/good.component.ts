@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Good, NewGood } from '../interfaces/good.model';
+import { Good } from '../interfaces/good.model';
 import { GoodsService } from '../goods.service';
 import { GoodsFirebaseService } from '../goodsFirebase.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -46,10 +46,6 @@ export class GoodComponent {
             );
           },
         });
-        // this.goodsFirebaseService.removeGood(this.good().id).subscribe(() => {
-        //   this.goodsService.removeGood(this.good().id);
-        // });
-        // this.notificationService.openSnackBar('Good deleted successfully');
       } else {
         console.log(
           '3. User cancelled deletion or dialog was dismissed. Good not deleted.'

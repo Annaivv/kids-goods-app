@@ -41,7 +41,7 @@
       <input matInput formControlName="image" />
     </mat-form-field>
     <div mat-dialog-actions>
-      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button (click)="onCancel()" type="button">Cancel</button>
       <button mat-flat-button [disabled]="form.invalid" type="submit">
         Add
       </button>

@@ -7,6 +7,7 @@ import { GoodsFirebaseService } from '../goodsFirebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddGoodDialogComponent } from '../add-good/add-good-dialog/add-good-dialog.component';
 import { NotificationService } from '../../shared/notification.service';
+import { ConfirmationComponent } from '../../shared/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-good',
@@ -23,10 +24,38 @@ export class GoodComponent {
   private notificationService = inject(NotificationService);
 
   removeGood(): void {
-    this.goodsFirebaseService.removeGood(this.good().id).subscribe(() => {
-      this.goodsService.removeGood(this.good().id);
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      width: '400px',
+      data: {
+        message: `Are you sure you want to delete the good "${
+          this.good().name
+        }"?`,
+      },
     });
-    this.notificationService.openSnackBar('Good deleted successfully');
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean | undefined) => {
+      if (confirmed === true) {
+        this.goodsFirebaseService.removeGood(this.good().id).subscribe({
+          next: () => {
+            this.goodsService.removeGood(this.good().id);
+            this.notificationService.openSnackBar('Good deleted successfully');
+          },
+          error: () => {
+            this.notificationService.openSnackBar(
+              'Failed to delete good. Please try again.'
+            );
+          },
+        });
+        // this.goodsFirebaseService.removeGood(this.good().id).subscribe(() => {
+        //   this.goodsService.removeGood(this.good().id);
+        // });
+        // this.notificationService.openSnackBar('Good deleted successfully');
+      } else {
+        console.log(
+          '3. User cancelled deletion or dialog was dismissed. Good not deleted.'
+        );
+      }
+    });
   }
 
   editGood(): void {

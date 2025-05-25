@@ -26,7 +26,7 @@ export class GoodsFirebaseService {
   }
 
   removeGood(goodId: string): Observable<void> {
-    const docRef = doc(this.firestore, 'goods/' + goodId);
+    const docRef = doc(this.firestore, 'goods', goodId);
     return from(deleteDoc(docRef));
   }
 

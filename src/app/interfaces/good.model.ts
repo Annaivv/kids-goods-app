@@ -8,5 +8,3 @@ export interface Good {
 }
 
 export type NewGood = Omit<Good, 'id'>;
-
-export type Category = 'clothes' | 'footwear' | 'toys' | 'games' | 'other';

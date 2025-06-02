@@ -1,0 +1,33 @@
+ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  gap: 0.5rem;
+  overflow: auto;
+  flex-direction: column;
+  width: fit-content;
+  min-width: 10rem;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+  background-color: aquamarine;
+  border-radius: 8px;
+  font-size: 22px;
+  text-transform: capitalize;
+}
+
+a {
+  display: block;
+  padding: 12px;
+  color: #1f1f1f;
+  border-radius: 8px;
+}
+
+a:hover,
+a:active,
+.selected {
+  background-color: rgb(20, 115, 183);
+  color: #fff;
+}

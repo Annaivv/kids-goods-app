@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { Good, NewGood } from './interfaces/good.model';
+import { Good, NewGood } from '../interfaces/good.model';
 import { GoodsFirebaseService } from './goodsFirebase.service';
 
 @Injectable({ providedIn: 'root' })

@@ -1,13 +1,29 @@
-.item-container {
-  max-width: fit-content;
-  min-width: 200px;
+div {
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+a {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 16px;
+  color: #0e0316;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+  width: 100%;
+  min-width: 10rem;
+  text-align: left;
+  font-size: 20px;
+}
+
+a:hover,
+a:active,
+.selected {
+  background-color: #8db2f1;
+  color: #150722;
 }
 
 .example-button-container {
@@ -15,3 +31,9 @@
   justify-content: center;
   gap: 1rem;
 }
+
+/* .selected {
+  border: 2px solid #007bff;
+  background-color: #8db2f1;
+  scale: 1.1;
+} */

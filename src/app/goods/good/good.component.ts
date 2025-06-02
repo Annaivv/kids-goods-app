@@ -1,17 +1,22 @@
 import { Component, inject, input } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Good } from '../interfaces/good.model';
+import { MatDialog } from '@angular/material/dialog';
+
+import { Good } from '../../interfaces/good.model';
+
 import { GoodsService } from '../goods.service';
 import { GoodsFirebaseService } from '../goodsFirebase.service';
-import { MatDialog } from '@angular/material/dialog';
+
 import { AddGoodDialogComponent } from '../add-good/add-good-dialog/add-good-dialog.component';
 import { NotificationService } from '../../shared/notification.service';
 import { ConfirmationComponent } from '../../shared/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-good',
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule, RouterLink, RouterLinkActive],
   templateUrl: './good.component.html',
   styleUrl: './good.component.css',
 })

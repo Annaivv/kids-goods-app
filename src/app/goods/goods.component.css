@@ -1,16 +1,25 @@
-ul {
-  margin: 0 auto;
-  padding: 0;
-  list-style: none;
+.goods-list {
+  margin: 0;
+  padding: 16px 0;
   display: flex;
+  justify-content: space-evenly;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+  gap: 10px;
+}
+
+.goods-list li {
+  width: fit-content;
+  min-width: 160px;
 }
 
 .add-button {
   margin: 0 auto;
   margin-top: 2rem;
   display: block;
+  font-size: large;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+  color: #fff;
 }

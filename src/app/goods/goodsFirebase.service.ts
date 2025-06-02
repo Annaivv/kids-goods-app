@@ -7,7 +7,7 @@ import {
   collectionData,
 } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
-import { Good, NewGood } from './interfaces/good.model';
+import { Good, NewGood } from '../interfaces/good.model';
 import { deleteDoc, setDoc } from 'firebase/firestore';
 
 @Injectable({ providedIn: 'root' })

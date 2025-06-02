@@ -7,10 +7,11 @@ import { GoodsFirebaseService } from './goodsFirebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddGoodDialogComponent } from './add-good/add-good-dialog/add-good-dialog.component';
 import { GoodComponent } from './good/good.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 @Component({
   selector: 'app-goods',
-  imports: [MatButtonModule, GoodComponent],
+  imports: [MatButtonModule, GoodComponent, CategoriesComponent],
   templateUrl: './goods.component.html',
   styleUrl: './goods.component.css',
 })

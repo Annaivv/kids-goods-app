@@ -17,9 +17,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { GoodsFirebaseService } from '../../goodsFirebase.service';
 
-import { Category, NewGood } from '../../interfaces/good.model';
+import { NewGood } from '../../../interfaces/good.model';
+import { Category } from '../../../interfaces/category.model';
 import { take } from 'rxjs';
-import { Good } from '../../interfaces/good.model';
+import { Good } from '../../../interfaces/good.model';
 import { NotificationService } from '../../../shared/notification.service';
 import { ConfirmationComponent } from '../../../shared/confirmation/confirmation.component';
 

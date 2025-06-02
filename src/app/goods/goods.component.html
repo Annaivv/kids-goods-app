@@ -1,11 +1,13 @@
-<ul>
-  @for (good of goods(); track good.id) {
-  <li>
-    <app-good [good]="good" />
-  </li>
-  }
-</ul>
+<div>
+  <ul class="goods-list">
+    @for (good of goods(); track good.id) {
+    <li>
+      <app-good [good]="good" />
+    </li>
+    }
+  </ul>
 
-<button mat-flat-button class="add-button" (click)="openAddGoodDialog()">
-  Add Item
-</button>
+  <button mat-flat-button class="add-button" (click)="openAddGoodDialog()">
+    Add Item
+  </button>
+</div>

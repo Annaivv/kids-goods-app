@@ -1,0 +1,9 @@
+<ul>
+  @for (category of categories; track $index) {
+  <li>
+    <a [routerLink]="['/categories', category]" routerLinkActive="selected">
+      {{ category }}
+    </a>
+  </li>
+  }
+</ul>

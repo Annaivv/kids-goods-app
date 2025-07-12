@@ -1,13 +1,14 @@
-.container {
+.form {
   margin: 0 auto;
   width: 300px;
-}
-
-.form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 12px;
+}
+
+.form a {
+  margin: 0 auto;
 }
 
 .submitButton {

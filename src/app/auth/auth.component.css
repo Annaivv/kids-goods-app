@@ -1,0 +1,16 @@
+.container {
+  margin: 0 auto;
+  width: 300px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.submitButton {
+  width: fit-content;
+  margin: 0 auto;
+}

@@ -27,9 +27,16 @@
       <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
     </button>
   </mat-form-field>
-  <a href="">Already have an account? Log in</a>
-  <button mat-flat-button [disabled]="form.invalid" class="submitButton">
-    Sign Up
+  <a routerLink="/auth" (click)="onSwitchMode()"
+    >Already have an account? Log in</a
+  >
+  <button
+    mat-flat-button
+    [disabled]="form.invalid"
+    class="submitButton"
+    type="submit"
+  >
+    {{ isLoginMode ? "Log in" : "Sign Up" }}
   </button>
 
   @if (form.invalid) {

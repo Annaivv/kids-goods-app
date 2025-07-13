@@ -29,6 +29,7 @@ import { merge } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {
+  isLoginMode: boolean = true;
   readonly form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
@@ -65,5 +66,9 @@ export class AuthComponent {
   clickHideEvent(event: MouseEvent): void {
     this.hide.set(!this.hide());
     event.stopPropagation();
+  }
+
+  onSwitchMode() {
+    this.isLoginMode = !this.isLoginMode;
   }
 }

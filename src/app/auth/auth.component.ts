@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormGroup,
+  FormGroupDirective,
   FormsModule,
   ReactiveFormsModule,
   Validators,
@@ -29,10 +30,15 @@ import { merge } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {
-  isLoginMode: boolean = true;
-  readonly form = new FormGroup({
+  isLoginMode: boolean = false;
+  // private suppressErrorUpdate = false;
+
+  readonly authForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+    ]),
   });
 
   errorMessage = signal<string>('');
@@ -40,23 +46,33 @@ export class AuthComponent {
   hide = signal<boolean>(true);
 
   constructor() {
-    merge(this.form.statusChanges, this.form.valueChanges)
+    merge(this.authForm.statusChanges, this.authForm.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
   }
 
   updateErrorMessage(): void {
-    if (!this.form.valid) {
-      const emailControl = this.form.get('email');
-      const passwordControl = this.form.get('password');
+    if (!this.authForm.dirty && !this.authForm.touched) {
+      this.errorMessage.set('');
+      return;
+    }
 
-      if (
-        emailControl?.hasError('required') ||
-        passwordControl?.hasError('required')
-      ) {
-        this.errorMessage.set('You must enter a value');
-      } else if (emailControl?.hasError('email')) {
+    if (!this.authForm.valid) {
+      this.errorMessage.set('');
+
+      const emailControl = this.authForm.get('email');
+      const passwordControl = this.authForm.get('password');
+
+      if (emailControl?.hasError('email')) {
         this.errorMessage.set('Not a valid email');
+      } else if (emailControl?.hasError('required')) {
+        this.errorMessage.set('You must enter an email value');
+      } else if (passwordControl?.hasError('required')) {
+        this.errorMessage.set('You must enter a password value');
+      } else if ((passwordControl?.value ?? '').length < 6) {
+        this.errorMessage.set(
+          'Your password should be at least 6 characters long'
+        );
       } else {
         this.errorMessage.set('');
       }
@@ -70,5 +86,19 @@ export class AuthComponent {
 
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
+  }
+
+  onSubmit(formDir: FormGroupDirective): void {
+    if (this.authForm.invalid) {
+      formDir.control.markAllAsTouched();
+      this.updateErrorMessage();
+      return;
+    }
+    const { email, password } = this.authForm.value;
+
+    console.log('Auth data: ', email, password);
+
+    formDir.resetForm();
+    this.authForm.reset();
   }
 }

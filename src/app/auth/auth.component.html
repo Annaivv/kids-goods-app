@@ -1,4 +1,9 @@
-<form [formGroup]="form" class="form">
+<form
+  [formGroup]="authForm"
+  #formDirective="ngForm"
+  (ngSubmit)="onSubmit(formDirective)"
+  class="form"
+>
   <mat-form-field>
     <mat-label>Enter your email</mat-label>
     <input
@@ -32,14 +37,14 @@
   >
   <button
     mat-flat-button
-    [disabled]="form.invalid"
+    [disabled]="authForm.invalid"
     class="submitButton"
     type="submit"
   >
     {{ isLoginMode ? "Log in" : "Sign Up" }}
   </button>
 
-  @if (form.invalid) {
+  @if (authForm.invalid) {
   <mat-error>{{ errorMessage() }}</mat-error>
   }
 </form>

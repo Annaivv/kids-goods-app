@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -13,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { merge } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -31,7 +37,6 @@ import { merge } from 'rxjs';
 })
 export class AuthComponent {
   isLoginMode: boolean = false;
-  // private suppressErrorUpdate = false;
 
   readonly authForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -44,6 +49,8 @@ export class AuthComponent {
   errorMessage = signal<string>('');
 
   hide = signal<boolean>(true);
+
+  private authService = inject(AuthService);
 
   constructor() {
     merge(this.authForm.statusChanges, this.authForm.valueChanges)
@@ -94,9 +101,17 @@ export class AuthComponent {
       this.updateErrorMessage();
       return;
     }
-    const { email, password } = this.authForm.value;
 
-    console.log('Auth data: ', email, password);
+    const email = this.authForm.value.email ?? '';
+    const password = this.authForm.value.password ?? '';
+
+    if (this.isLoginMode) {
+      //...
+    } else {
+      this.authService.signup(email, password).subscribe((resData) => {
+        console.log(resData);
+      });
+    }
 
     formDir.resetForm();
     this.authForm.reset();

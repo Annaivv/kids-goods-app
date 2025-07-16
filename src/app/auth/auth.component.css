@@ -16,3 +16,13 @@
   width: fit-content;
   margin: 0 auto;
 }
+
+.errorMessage {
+  margin: 0 auto;
+  width: 260px;
+  text-align: center;
+  background-color: rgb(231, 167, 167);
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 4px;
+}

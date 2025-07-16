@@ -1,3 +1,8 @@
+@if (isLoading) {
+<div style="text-align: center"><app-loading-spinner /></div>
+} @else { @if (submitError) {
+<div class="errorMessage">{{ submitError }}</div>
+}
 <form
   [formGroup]="authForm"
   #formDirective="ngForm"
@@ -45,6 +50,8 @@
   </button>
 
   @if (authForm.invalid) {
-  <mat-error>{{ errorMessage() }}</mat-error>
+  <mat-error>{{ inputError() }}</mat-error>
   }
 </form>
+
+}

@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { merge } from 'rxjs';
 import { AuthService } from './auth.service';
+import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-auth',
@@ -29,6 +30,7 @@ import { AuthService } from './auth.service';
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
+    LoadingSpinnerComponent,
   ],
   standalone: true,
   templateUrl: './auth.component.html',
@@ -37,6 +39,7 @@ import { AuthService } from './auth.service';
 })
 export class AuthComponent {
   isLoginMode: boolean = false;
+  isLoading: boolean = false;
 
   readonly authForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -46,7 +49,9 @@ export class AuthComponent {
     ]),
   });
 
-  errorMessage = signal<string>('');
+  submitError: string | null = null;
+
+  inputError = signal<string>('');
 
   hide = signal<boolean>(true);
 
@@ -60,28 +65,28 @@ export class AuthComponent {
 
   updateErrorMessage(): void {
     if (!this.authForm.dirty && !this.authForm.touched) {
-      this.errorMessage.set('');
+      this.inputError.set('');
       return;
     }
 
     if (!this.authForm.valid) {
-      this.errorMessage.set('');
+      this.inputError.set('');
 
       const emailControl = this.authForm.get('email');
       const passwordControl = this.authForm.get('password');
 
       if (emailControl?.hasError('email')) {
-        this.errorMessage.set('Not a valid email');
+        this.inputError.set('Not a valid email');
       } else if (emailControl?.hasError('required')) {
-        this.errorMessage.set('You must enter an email value');
+        this.inputError.set('You must enter an email value');
       } else if (passwordControl?.hasError('required')) {
-        this.errorMessage.set('You must enter a password value');
+        this.inputError.set('You must enter a password value');
       } else if ((passwordControl?.value ?? '').length < 6) {
-        this.errorMessage.set(
+        this.inputError.set(
           'Your password should be at least 6 characters long'
         );
       } else {
-        this.errorMessage.set('');
+        this.inputError.set('');
       }
     }
   }
@@ -105,11 +110,21 @@ export class AuthComponent {
     const email = this.authForm.value.email ?? '';
     const password = this.authForm.value.password ?? '';
 
+    this.isLoading = true;
+
     if (this.isLoginMode) {
       //...
     } else {
-      this.authService.signup(email, password).subscribe((resData) => {
-        console.log(resData);
+      this.authService.signup(email, password).subscribe({
+        next: (resData) => {
+          console.log(resData);
+          this.isLoading = false;
+        },
+        error: (e) => {
+          console.error(e);
+          this.submitError = 'An error occured';
+          this.isLoading = false;
+        },
       });
     }
 

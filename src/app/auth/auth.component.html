@@ -1,8 +1,8 @@
-@if (isLoading) {
+@if (isLoading()) {
 <div style="text-align: center"><app-loading-spinner /></div>
-} @else { @if (submitError) {
+} @if (submitError && submitError !== null) {
 <div class="errorMessage">{{ submitError }}</div>
-}
+} @if (!isLoading()) {
 <form
   [formGroup]="authForm"
   #formDirective="ngForm"

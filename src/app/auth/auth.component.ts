@@ -39,7 +39,6 @@ import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinn
 })
 export class AuthComponent {
   isLoginMode: boolean = false;
-  isLoading: boolean = false;
 
   readonly authForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -52,6 +51,8 @@ export class AuthComponent {
   submitError: string | null = null;
 
   inputError = signal<string>('');
+
+  isLoading = signal<boolean>(false);
 
   hide = signal<boolean>(true);
 
@@ -110,7 +111,7 @@ export class AuthComponent {
     const email = this.authForm.value.email ?? '';
     const password = this.authForm.value.password ?? '';
 
-    this.isLoading = true;
+    this.isLoading.set(true);
 
     if (this.isLoginMode) {
       //...
@@ -118,17 +119,16 @@ export class AuthComponent {
       this.authService.signup(email, password).subscribe({
         next: (resData) => {
           console.log(resData);
-          this.isLoading = false;
+          this.isLoading.set(false);
+          formDir.resetForm();
+          this.authForm.reset();
         },
-        error: (e) => {
-          console.error(e);
-          this.submitError = 'An error occured';
-          this.isLoading = false;
+        error: (errorMessage) => {
+          console.error(errorMessage);
+          this.submitError = errorMessage;
+          this.isLoading.set(false);
         },
       });
     }
-
-    formDir.resetForm();
-    this.authForm.reset();
   }
 }

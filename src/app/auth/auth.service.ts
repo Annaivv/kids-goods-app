@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { firebaseConfig } from '../app.config';
 
 interface AuthResponseData {
   idToken: string;
@@ -17,7 +18,7 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyC6wZ8rRYwQwmXy2rl510NjsiA-ces-DVw`,
+        `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${firebaseConfig.apiKey}`,
         { email, password, returnSecureToken: true }
       )
       .pipe(

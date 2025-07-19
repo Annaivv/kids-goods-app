@@ -1,10 +1,10 @@
 .form {
   margin: 0 auto;
-  width: 300px;
+  width: 18.75rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .form a {
@@ -19,11 +19,11 @@
 
 .errorMessage {
   margin: 0 auto;
-  width: 260px;
+  width: 16.25rem;
   text-align: center;
   background-color: rgb(231, 167, 167);
   color: red;
-  margin-bottom: 20px;
-  padding: 20px;
-  border-radius: 4px;
+  margin-bottom: 1.25rem;
+  padding: 1.25rem;
+  border-radius: 0.25rem;
 }

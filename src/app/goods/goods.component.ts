@@ -35,7 +35,7 @@ export class GoodsComponent {
 
   openAddGoodDialog(): void {
     const dialogRef = this.dialog.open(AddGoodDialogComponent, {
-      width: '400px',
+      width: '25rem',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

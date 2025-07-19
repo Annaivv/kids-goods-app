@@ -30,7 +30,7 @@ export class GoodComponent {
 
   removeGood(): void {
     const dialogRef = this.dialog.open(ConfirmationComponent, {
-      width: '400px',
+      width: '25rem',
       data: {
         message: `Are you sure you want to delete the good "${
           this.good().name
@@ -61,7 +61,7 @@ export class GoodComponent {
 
   editGood(): void {
     const dialogRef = this.dialog.open(AddGoodDialogComponent, {
-      width: '400px',
+      width: '25rem',
       data: this.good(),
     });
 

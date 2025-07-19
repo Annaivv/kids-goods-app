@@ -112,7 +112,7 @@ export class AddGoodDialogComponent {
 
   onCancel(): void {
     const confirmationDialogRef = this.dialog.open(ConfirmationComponent, {
-      width: '400px',
+      width: '25rem',
       data: {
         message: 'Are you sure you want to cancel? All changes will be lost.',
       },

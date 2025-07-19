@@ -9,6 +9,16 @@
     )
   );
 }
+html {
+  color-scheme: light dark;
+  @include mat.theme(
+    (
+      color: mat.$violet-palette,
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
 
 html,
 body {
@@ -17,7 +27,11 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  padding: 20px;
+  padding: 0 1.25rem;
+}
+
+ul {
+  margin: 0;
 }
 
 li {

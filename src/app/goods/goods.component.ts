@@ -7,11 +7,10 @@ import { GoodsFirebaseService } from './goodsFirebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddGoodDialogComponent } from './add-good/add-good-dialog/add-good-dialog.component';
 import { GoodComponent } from './good/good.component';
-import { CategoriesComponent } from './categories/categories.component';
 
 @Component({
   selector: 'app-goods',
-  imports: [MatButtonModule, GoodComponent, CategoriesComponent],
+  imports: [MatButtonModule, GoodComponent],
   templateUrl: './goods.component.html',
   styleUrl: './goods.component.css',
 })
@@ -36,7 +35,7 @@ export class GoodsComponent {
 
   openAddGoodDialog(): void {
     const dialogRef = this.dialog.open(AddGoodDialogComponent, {
-      width: '400px',
+      width: '25rem',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

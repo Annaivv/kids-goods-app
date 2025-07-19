@@ -1,15 +1,15 @@
 .goods-list {
   margin: 0;
-  padding: 16px 0;
+  padding: 1.25rem 0;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.75rem;
 }
 
 .goods-list li {
   width: fit-content;
-  min-width: 160px;
+  min-width: 10rem;
 }
 
 .add-button {

@@ -14,7 +14,7 @@ export class ConfirmationService {
     exitAnimationDuration: string = '0ms'
   ) {
     return this.dialog.open(ConfirmationComponent, {
-      width: '250px',
+      width: '16rem',
       enterAnimationDuration,
       exitAnimationDuration,
       data: {

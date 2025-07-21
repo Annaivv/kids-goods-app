@@ -1,7 +1,7 @@
 @if (isLoading()) {
 <div style="text-align: center"><app-loading-spinner /></div>
-} @if (submitError && submitError !== null) {
-<div class="errorMessage">{{ submitError }}</div>
+} @if (submitError()) {
+<div class="errorMessage">{{ submitError() }}</div>
 } @if (!isLoading()) {
 <form
   [formGroup]="authForm"

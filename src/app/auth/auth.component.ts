@@ -48,7 +48,7 @@ export class AuthComponent {
     ]),
   });
 
-  submitError: string | null = null;
+  submitError = signal<string | null>(null);
 
   inputError = signal<string>('');
 
@@ -70,26 +70,35 @@ export class AuthComponent {
       return;
     }
 
-    if (!this.authForm.valid) {
+    if (this.authForm.valid) {
       this.inputError.set('');
-
-      const emailControl = this.authForm.get('email');
-      const passwordControl = this.authForm.get('password');
-
-      if (emailControl?.hasError('email')) {
-        this.inputError.set('Not a valid email');
-      } else if (emailControl?.hasError('required')) {
-        this.inputError.set('You must enter an email value');
-      } else if (passwordControl?.hasError('required')) {
-        this.inputError.set('You must enter a password value');
-      } else if ((passwordControl?.value ?? '').length < 6) {
-        this.inputError.set(
-          'Your password should be at least 6 characters long'
-        );
-      } else {
-        this.inputError.set('');
-      }
+      return;
     }
+
+    const errorMessage = this.getFirstValidationError();
+    this.inputError.set(errorMessage);
+  }
+
+  private getFirstValidationError(): string {
+    const ERROR_MESSAGES = {
+      EMAIL_INVALID: 'Not a valid email',
+      EMAIL_REQUIRED: 'You must enter an email value',
+      PASSWORD_REQUIRED: 'You must enter a password value',
+      PASSWORD_MIN_LENGTH: 'Your password should be at least 6 characters long',
+    };
+
+    const emailControl = this.authForm.get('email');
+    const passwordControl = this.authForm.get('password');
+
+    if (emailControl?.hasError('email')) return ERROR_MESSAGES.EMAIL_INVALID;
+    if (emailControl?.hasError('required'))
+      return ERROR_MESSAGES.EMAIL_REQUIRED;
+    if (passwordControl?.hasError('required'))
+      return ERROR_MESSAGES.PASSWORD_REQUIRED;
+    if ((passwordControl?.value ?? '').length < 6)
+      return ERROR_MESSAGES.PASSWORD_MIN_LENGTH;
+
+    return '';
   }
 
   clickHideEvent(event: MouseEvent): void {
@@ -125,7 +134,7 @@ export class AuthComponent {
         },
         error: (errorMessage) => {
           console.error(errorMessage);
-          this.submitError = errorMessage;
+          this.submitError.set(errorMessage);
           this.isLoading.set(false);
         },
       });

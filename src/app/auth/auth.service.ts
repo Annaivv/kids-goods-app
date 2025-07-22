@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { firebaseConfig } from '../app.config';
+import { ErrorHandlingService } from './error-handling.service';
 
 interface AuthResponseData {
   idToken: string;
@@ -14,7 +14,11 @@ interface AuthResponseData {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authErrorService: ErrorHandlingService
+  ) {}
+
   signup(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
@@ -22,19 +26,9 @@ export class AuthService {
         { email, password, returnSecureToken: true }
       )
       .pipe(
-        catchError((errorRes) => {
-          let errorMessage = 'An unknown error occured';
-
-          if (!errorRes.error || !errorRes.error.error) {
-            return throwError(() => new Error(errorMessage));
-          }
-
-          switch (errorRes.error.error.message) {
-            case 'EMAIL_EXISTS':
-              errorMessage = 'This email already exists';
-          }
-          return throwError(() => new Error(errorMessage));
-        })
+        catchError((errorRes) =>
+          this.authErrorService.handleAuthError(errorRes)
+        )
       );
   }
 }

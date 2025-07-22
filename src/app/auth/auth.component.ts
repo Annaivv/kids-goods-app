@@ -38,8 +38,6 @@ import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinn
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {
-  isLoginMode: boolean = false;
-
   readonly authForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
@@ -48,8 +46,8 @@ export class AuthComponent {
     ]),
   });
 
+  isLoginMode = signal<boolean>(false);
   submitError = signal<string | null>(null);
-
   inputError = signal<string>('');
 
   isLoading = signal<boolean>(false);
@@ -101,13 +99,24 @@ export class AuthComponent {
     return '';
   }
 
+  private handleSubmitSuccess(formTemplate: FormGroupDirective): void {
+    this.isLoading.set(false);
+    formTemplate.resetForm();
+    this.authForm.reset();
+  }
+
+  private handleSubmitError(error: string) {
+    this.submitError.set(error);
+    this.isLoading.set(false);
+  }
+
   clickHideEvent(event: MouseEvent): void {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
 
   onSwitchMode() {
-    this.isLoginMode = !this.isLoginMode;
+    this.isLoginMode.set(!this.isLoginMode());
   }
 
   onSubmit(formDir: FormGroupDirective): void {
@@ -122,21 +131,12 @@ export class AuthComponent {
 
     this.isLoading.set(true);
 
-    if (this.isLoginMode) {
+    if (this.isLoginMode()) {
       //...
     } else {
       this.authService.signup(email, password).subscribe({
-        next: (resData) => {
-          console.log(resData);
-          this.isLoading.set(false);
-          formDir.resetForm();
-          this.authForm.reset();
-        },
-        error: (errorMessage) => {
-          console.error(errorMessage);
-          this.submitError.set(errorMessage);
-          this.isLoading.set(false);
-        },
+        next: () => this.handleSubmitSuccess(formDir),
+        error: (errorMessage) => this.handleSubmitError(errorMessage),
       });
     }
   }

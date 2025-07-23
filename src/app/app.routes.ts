@@ -11,4 +11,9 @@ export const routes: Routes = [
     path: 'categories/:categoryName',
     component: CategoryItemsComponent,
   },
+  {
+    path: 'auth',
+    loadComponent: () =>
+      import('./auth/auth.component').then((m) => m.AuthComponent),
+  },
 ];

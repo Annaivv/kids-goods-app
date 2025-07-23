@@ -1,0 +1,57 @@
+@if (isLoading()) {
+<div style="text-align: center"><app-loading-spinner /></div>
+} @if (submitError()) {
+<div class="errorMessage">{{ submitError() }}</div>
+} @if (!isLoading()) {
+<form
+  [formGroup]="authForm"
+  #formDirective="ngForm"
+  (ngSubmit)="onSubmit(formDirective)"
+  class="form"
+>
+  <mat-form-field>
+    <mat-label>Enter your email</mat-label>
+    <input
+      matInput
+      placeholder="pat@example.com"
+      formControlName="email"
+      (blur)="updateErrorMessage()"
+      required
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Enter your password</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      required
+      [type]="hide() ? 'password' : 'text'"
+    />
+    <button
+      matIconButton
+      matSuffix
+      (click)="clickHideEvent($event)"
+      [attr.aria-label]="hide() ? 'Show password' : 'Hide password'"
+      [attr.aria-pressed]="hide()"
+    >
+      <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
+  </mat-form-field>
+  <a routerLink="/auth" (click)="onSwitchMode()"
+    >Already have an account? Log in</a
+  >
+  <button
+    mat-flat-button
+    [disabled]="authForm.invalid"
+    class="submitButton"
+    type="submit"
+  >
+    {{ isLoginMode ? "Log in" : "Sign Up" }}
+  </button>
+
+  @if (authForm.invalid) {
+  <mat-error>{{ inputError() }}</mat-error>
+  }
+</form>
+
+}
